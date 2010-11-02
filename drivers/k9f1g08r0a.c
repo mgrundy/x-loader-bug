@@ -40,28 +40,24 @@
 
 
 
-/* Since Micron and Samsung parts are similar in geometry and bus width
+/* Since Micron and Elpida parts are similar in geometry and bus width
  * we can use the same driver. Need to revisit to make this file independent
  * of part/manufacturer
  */
-#ifndef CONFIG_BUGBASE2
 
-#define MT29F1G_MFR		0x2c  /* Micron */
+#define MT29F1G_MFR_M		0x2c  /* Micron */
 #define MT29F1G_ID		0xa1  /* x8, 1GiB */
-#define MT29F2G_ID      	0xba  /* x16, 2GiB */
+#define MT29F2G_ID		0xba  /* x16, 2GiB */
 
-#else
+#define MT29F1G_MFR_E		0x20  /* ELPIDA */
+#define MT29F1G_ID_E		0xba  /* x8, 1GiB */ /* just use def ids */
+#define MT29F2G_ID_E		0xba  /* x16, 2GiB */
 
-#define MT29F1G_MFR		0x20  /* ELPIDA */
-#define MT29F1G_ID		0xba  /* x8, 1GiB */
-#define MT29F2G_ID      0xba  /* x16, 2GiB */
-
-#endif
-#define ADDR_COLUMN		1          
-#define ADDR_PAGE		2             
+#define ADDR_COLUMN		1
+#define ADDR_PAGE		2
 #define ADDR_COLUMN_PAGE	(ADDR_COLUMN | ADDR_PAGE)
 
-#define ADDR_OOB		(0x4 | ADDR_COLUMN_PAGE) 
+#define ADDR_OOB		(0x4 | ADDR_COLUMN_PAGE)
 
 #define PAGE_SIZE		2048
 #define OOB_SIZE		64
@@ -194,7 +190,8 @@ int nand_chip()
 	NAND_DISABLE_CE();
 
 	if (get_cpu_rev() == CPU_3430_ES2)
-		return (mfr != MT29F1G_MFR || !(id == MT29F1G_ID || id == MT29F2G_ID));
+		return ((mfr != MT29F1G_MFR_M && mfr != MT29F1G_MFR_E) || 
+				!(id == MT29F1G_ID || id == MT29F2G_ID));
 	else
 	  	return (mfr != K9F1G08R0A_MFR || id != K9F1G08R0A_ID);
 }
