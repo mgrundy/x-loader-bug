@@ -105,11 +105,42 @@ u32 get_mem_type( void )
 {
 	switch( get_sysboot_value() )
 	{
-	case 21: return GPMC_NAND;
-	case 15:
-	case 18:
-	case 24: return MMC_NAND;
-	default: return GPMC_NOR;
+		case 0:
+		case 2:
+		case 16:
+		case 22:
+			return GPMC_ONENAND;
+
+		case 1:
+		case 4: /* moved from GPMC_ONENAND */
+		case 12:
+		case 21:
+		case 27:
+			return GPMC_NAND;
+
+		case 3:
+		case 6:
+			return MMC_ONENAND;
+
+		case 8:
+		case 11:
+		case 14:
+		case 20:
+		case 26:
+			return GPMC_MDOC;
+
+		case 15: /* moved from GPMC_NAND */
+		case 17:
+		case 18:
+		case 24:
+			return MMC_NAND;
+		case 7:
+		case 10:
+		case 13:
+		case 19:
+		case 25:
+		default:
+			return GPMC_NOR;
 	}
 }
 
