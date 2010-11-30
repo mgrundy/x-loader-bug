@@ -113,6 +113,7 @@ u32 get_mem_type( void )
 
 		case 1:
 		case 4: /* moved from GPMC_ONENAND */
+		case 15: /* moved from GPMC_NAND */
 		case 12:
 		case 21:
 		case 27:
@@ -129,7 +130,6 @@ u32 get_mem_type( void )
 		case 26:
 			return GPMC_MDOC;
 
-		case 15: /* moved from GPMC_NAND */
 		case 17:
 		case 18:
 		case 24:
